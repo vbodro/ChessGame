@@ -43,4 +43,57 @@ A C++ chess implementation with an SFML-rendered GUI and a custom AI opponent.
 - Pawn promotion to queen for both sides, with an animated transition on the AI move.
 - Undo button (or `U` key) that walks back any number of full move pairs.
 - In-window game-over banner with system-font fallback.
-- Built with C++17 and SFML 2.x; tested on Windows.
+
+## Building
+
+### Prerequisites
+- Visual Studio 2022 (or later) with the **Desktop development with C++**
+  workload installed.
+- [SFML 2.6.2](https://www.sfml-dev.org/download/sfml/2.6.2/) — the
+  *Visual C++ 17, 64-bit* prebuilt package.
+
+### SFML setup
+The Visual Studio project expects SFML at the absolute path
+`C:\MyProjects\SFML\SFML-2.6.2\`, with the standard `include/`, `lib/`, and
+`bin/` subfolders. The simplest path is to mirror that layout — clone this
+repo next to an `SFML\SFML-2.6.2\` folder, e.g.:
+
+```
+C:\MyProjects\
+    Chess\          ← this repo
+    SFML\
+        SFML-2.6.2\
+            bin\
+            include\
+            lib\
+```
+
+If you place SFML elsewhere, open `Chess.vcxproj` and adjust the two entries
+under the `x64` configurations:
+- `AdditionalIncludeDirectories` → your `<SFML>/include`
+- `AdditionalLibraryDirectories` → your `<SFML>/lib`
+
+### Build
+1. Open `Chess.slnx` in Visual Studio.
+2. Pick the **`Release | x64`** configuration (`Debug | x64` works too; the
+   `Win32` configurations don't link SFML and won't build the renderer).
+3. Build the solution (`Ctrl+Shift+B`).
+
+The project compiles as C++20 (`/std:c++20`) under the v145 platform toolset.
+
+### Runtime
+The executable needs the SFML runtime DLLs alongside `Chess.exe`. For
+`Release | x64`, copy these from SFML's `bin/` directory into the output
+folder (`x64\Release\` next to the exe):
+
+- `sfml-graphics-2.dll`
+- `sfml-window-2.dll`
+- `sfml-system-2.dll`
+
+For `Debug | x64`, use the `-d` variants
+(`sfml-graphics-d-2.dll`, etc.). Alternatively, add SFML's `bin/` directory
+to your `PATH` and skip the copy step.
+
+The game also needs the `assets/` folder to be in the working directory.
+Visual Studio runs the exe from the project root by default, so this works
+out of the box; if you copy the exe elsewhere, copy `assets/` with it.
