@@ -114,6 +114,11 @@ void renderAIMove(sf::RenderWindow& window, const Assets& assets, const AIAnimSt
 }
 
 void renderSidePanel(sf::RenderWindow& window, bool undoEnabled) {
+#ifdef NDEBUG
+    // No side panel in Release builds.
+    (void)window; (void)undoEnabled;
+    return;
+#else
     // Side panel background
     sf::RectangleShape panel({ (float)PANEL_WIDTH, (float)WINDOW_H });
     panel.setPosition((float)BOARD_PX, 0.f);
@@ -148,11 +153,18 @@ void renderSidePanel(sf::RenderWindow& window, bool undoEnabled) {
     head.setPoint(2, { cx - 10.f, cy + 14.f });   // lower right
     head.setFillColor(iconColor);
     window.draw(head);
+#endif
 }
 
 bool isUndoButtonHit(int x, int y) {
+#ifdef NDEBUG
+    // Button doesn't exist in Release builds.
+    (void)x; (void)y;
+    return false;
+#else
     return x >= UNDO_BTN_X && x < UNDO_BTN_X + UNDO_BTN_W &&
            y >= UNDO_BTN_Y && y < UNDO_BTN_Y + UNDO_BTN_H;
+#endif
 }
 
 void renderGameOver(sf::RenderWindow& window, const Assets& assets, const std::string& message) {

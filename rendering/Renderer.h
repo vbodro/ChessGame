@@ -7,11 +7,20 @@
 
 constexpr int SQUARE_SIZE  = 80;
 constexpr int BOARD_PX     = SQUARE_SIZE * 8;
-constexpr int PANEL_WIDTH  = 120;             // side panel for buttons
+
+// Side panel (with the Undo button) is only included in Debug builds. In
+// Release the window collapses to the bare board so end users don't see
+// development affordances.
+#ifdef NDEBUG
+constexpr int PANEL_WIDTH = 0;
+#else
+constexpr int PANEL_WIDTH = 120;
+#endif
+
 constexpr int WINDOW_W     = BOARD_PX + PANEL_WIDTH;
 constexpr int WINDOW_H     = BOARD_PX;
 
-// Position and size of the Undo button (in window coordinates)
+// Position and size of the Undo button (used only when PANEL_WIDTH > 0)
 constexpr int UNDO_BTN_X = BOARD_PX + 10;
 constexpr int UNDO_BTN_Y = 10;
 constexpr int UNDO_BTN_W = 100;
