@@ -1,0 +1,7 @@
+.vs/
+x64/
+Chess/x64/
+*.user
+*.suo
+*.aps
+.claude/
